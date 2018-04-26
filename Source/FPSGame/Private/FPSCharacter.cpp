@@ -90,6 +90,7 @@ void AFPSCharacter::MoveForward(float Value)
 	if (Value != 0.0f)
 	{
 	
+			
 			// add movement in that direction
 			AddMovementInput(GetActorForwardVector(), Value);
 
@@ -108,6 +109,8 @@ void AFPSCharacter::MoveRight(float Value)
 
 void AFPSCharacter::IsSprinting()
 {
+	
+
 	bIsSprinting = true;
 	UE_LOG(LogTemp, Display, TEXT("Player is sprinting!"));
 }

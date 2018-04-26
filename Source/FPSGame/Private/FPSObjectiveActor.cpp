@@ -52,6 +52,7 @@ void AFPSObjectiveActor::NotifyActorBeginOverlap(AActor* OtherActor)
 		UE_LOG(LogTemp, Display, TEXT("Player Obtained Objective"));
 
 		Destroy();
+		UGameplayStatics::PlaySound2D(this, PickUpSoundFX);
 	}
 
 }
