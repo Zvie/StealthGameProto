@@ -77,6 +77,14 @@ void EmptyLinkFunctionForGeneratedCodeFPSGameMode() {}
 			};
 #endif
 #if WITH_METADATA
+			static const UE4CodeGen_Private::FMetaDataPairParam NewProp_bIsMissionComplete_MetaData[] = {
+				{ "Category", "Mission Complete/Fail" },
+				{ "ModuleRelativePath", "Public/FPSGameMode.h" },
+			};
+#endif
+			auto NewProp_bIsMissionComplete_SetBit = [](void* Obj){ ((AFPSGameMode*)Obj)->bIsMissionComplete = 1; };
+			static const UE4CodeGen_Private::FBoolPropertyParams NewProp_bIsMissionComplete = { UE4CodeGen_Private::EPropertyClass::Bool, "bIsMissionComplete", RF_Public|RF_Transient|RF_MarkAsNative, 0x0010000000000004, 1, nullptr, sizeof(bool), UE4CodeGen_Private::ENativeBool::Native, sizeof(AFPSGameMode), &UE4CodeGen_Private::TBoolSetBitWrapper<decltype(NewProp_bIsMissionComplete_SetBit)>::SetBit, METADATA_PARAMS(NewProp_bIsMissionComplete_MetaData, ARRAY_COUNT(NewProp_bIsMissionComplete_MetaData)) };
+#if WITH_METADATA
 			static const UE4CodeGen_Private::FMetaDataPairParam NewProp_SpectatingViewpointClass_MetaData[] = {
 				{ "Category", "Spectating Camera" },
 				{ "ModuleRelativePath", "Public/FPSGameMode.h" },
@@ -84,6 +92,7 @@ void EmptyLinkFunctionForGeneratedCodeFPSGameMode() {}
 #endif
 			static const UE4CodeGen_Private::FClassPropertyParams NewProp_SpectatingViewpointClass = { UE4CodeGen_Private::EPropertyClass::Class, "SpectatingViewpointClass", RF_Public|RF_Transient|RF_MarkAsNative, 0x0024080000010001, 1, nullptr, STRUCT_OFFSET(AFPSGameMode, SpectatingViewpointClass), Z_Construct_UClass_AActor_NoRegister, Z_Construct_UClass_UClass, METADATA_PARAMS(NewProp_SpectatingViewpointClass_MetaData, ARRAY_COUNT(NewProp_SpectatingViewpointClass_MetaData)) };
 			static const UE4CodeGen_Private::FPropertyParamsBase* const PropPointers[] = {
+				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_bIsMissionComplete,
 				(const UE4CodeGen_Private::FPropertyParamsBase*)&NewProp_SpectatingViewpointClass,
 			};
 			static const FCppClassTypeInfoStatic StaticCppClassTypeInfo = {
@@ -104,7 +113,7 @@ void EmptyLinkFunctionForGeneratedCodeFPSGameMode() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AFPSGameMode, 3179296287);
+	IMPLEMENT_CLASS(AFPSGameMode, 282602754);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AFPSGameMode(Z_Construct_UClass_AFPSGameMode, &AFPSGameMode::StaticClass, TEXT("/Script/FPSGame"), TEXT("AFPSGameMode"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AFPSGameMode);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

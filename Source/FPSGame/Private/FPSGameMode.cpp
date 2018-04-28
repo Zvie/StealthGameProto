@@ -5,7 +5,7 @@
 #include "FPSCharacter.h"
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
-
+#include "FPSCharacter.h"
 
 AFPSGameMode::AFPSGameMode()
 {
@@ -39,13 +39,16 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
 				// at the zero index
 				AActor* NewViewTarget = ReturnedActors[0];
 
+				//Define my character
+
 				// Cast to the player controller then set view target with blend to the 
 				// spectator camera
+
 				APlayerController* PC = Cast<APlayerController>(InstigatorPawn->GetController());
 					if (PC)
 					{
-						PC->SetViewTargetWithBlend(NewViewTarget, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic);
 						
+							PC->SetViewTargetWithBlend(NewViewTarget, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic);
 					}
 			}
 		} else 

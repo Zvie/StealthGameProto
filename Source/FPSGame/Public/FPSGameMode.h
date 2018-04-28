@@ -16,9 +16,14 @@ protected:
 	UPROPERTY(EditDefaultsOnly, Category="Spectating Camera")
 	TSubclassOf<AActor> SpectatingViewpointClass;
 
+	
+
 public:
 
 	AFPSGameMode();
+
+	UPROPERTY(BlueprintReadWrite, Category = "Mission Complete/Fail")
+	bool bIsMissionComplete;
 
 	void CompleteMission(APawn* InstigatorPawn);
 

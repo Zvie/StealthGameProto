@@ -12,6 +12,7 @@ class UCameraComponent;
 class AFPSProjectile;
 class USoundBase;
 class UAnimSequence;
+class UPawnNoiseEmitterComponent;
 
 
 UCLASS()
@@ -32,6 +33,9 @@ protected:
 	/** First person camera */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "Camera")
 	UCameraComponent* CameraComponent;
+
+	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category = "AI")
+		UPawnNoiseEmitterComponent* NoiseEmitterComponent;
 
 public:
 	AFPSCharacter();
@@ -71,6 +75,8 @@ protected:
 	/** Handles if the player isn't sprinting **/
 	void IsntSprinting();
 
+	
+
 	virtual void SetupPlayerInputComponent(UInputComponent* InputComponent) override;
 
 public:
@@ -79,6 +85,8 @@ public:
 
 	/** Returns FirstPersonCameraComponent subobject **/
 	UCameraComponent* GetFirstPersonCameraComponent() const { return CameraComponent; }
-
+	
+	UFUNCTION(BlueprintCallable, Category = "AI")
+	void Died();
 };
 
