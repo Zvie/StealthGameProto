@@ -17,9 +17,10 @@ class APawn;
 #define StealthGameProto_Source_FPSGame_Public_FPSGameMode_h_12_RPC_WRAPPERS
 #define StealthGameProto_Source_FPSGame_Public_FPSGameMode_h_12_RPC_WRAPPERS_NO_PURE_DECLS
 #define StealthGameProto_Source_FPSGame_Public_FPSGameMode_h_12_EVENT_PARMS \
-	struct FPSGameMode_eventOnMissionCompleted_Parms \
+	struct FPSGameMode_eventOnMissionComplete_Parms \
 	{ \
 		APawn* InstigatorPawn; \
+		bool bMissionComplete; \
 	};
 
 

@@ -14,27 +14,43 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS
 #define FPSGAME_FPSCharacter_generated_h
 
 #define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_RPC_WRAPPERS \
+	virtual bool ServerFire_Validate(); \
+	virtual void ServerFire_Implementation(); \
  \
-	DECLARE_FUNCTION(execDied) \
+	DECLARE_FUNCTION(execServerFire) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->Died(); \
+		if (!P_THIS->ServerFire_Validate()) \
+		{ \
+			RPC_ValidateFailed(TEXT("ServerFire_Validate")); \
+			return; \
+		} \
+		P_THIS->ServerFire_Implementation(); \
 		P_NATIVE_END; \
 	}
 
 
 #define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_RPC_WRAPPERS_NO_PURE_DECLS \
+	virtual bool ServerFire_Validate(); \
+	virtual void ServerFire_Implementation(); \
  \
-	DECLARE_FUNCTION(execDied) \
+	DECLARE_FUNCTION(execServerFire) \
 	{ \
 		P_FINISH; \
 		P_NATIVE_BEGIN; \
-		P_THIS->Died(); \
+		if (!P_THIS->ServerFire_Validate()) \
+		{ \
+			RPC_ValidateFailed(TEXT("ServerFire_Validate")); \
+			return; \
+		} \
+		P_THIS->ServerFire_Implementation(); \
 		P_NATIVE_END; \
 	}
 
 
+#define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_EVENT_PARMS
+#define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_CALLBACK_WRAPPERS
 #define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_INCLASS_NO_PURE_DECLS \
 private: \
 	static void StaticRegisterNativesAFPSCharacter(); \
@@ -42,7 +58,8 @@ private: \
 public: \
 	DECLARE_CLASS(AFPSCharacter, ACharacter, COMPILED_IN_FLAGS(0), 0, TEXT("/Script/FPSGame"), NO_API) \
 	DECLARE_SERIALIZER(AFPSCharacter) \
-	enum {IsIntrinsic=COMPILED_IN_INTRINSIC};
+	enum {IsIntrinsic=COMPILED_IN_INTRINSIC}; \
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 
 #define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_INCLASS \
@@ -52,7 +69,8 @@ private: \
 public: \
 	DECLARE_CLASS(AFPSCharacter, ACharacter, COMPILED_IN_FLAGS(0), 0, TEXT("/Script/FPSGame"), NO_API) \
 	DECLARE_SERIALIZER(AFPSCharacter) \
-	enum {IsIntrinsic=COMPILED_IN_INTRINSIC};
+	enum {IsIntrinsic=COMPILED_IN_INTRINSIC}; \
+	void GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& OutLifetimeProps) const override;
 
 
 #define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_STANDARD_CONSTRUCTORS \
@@ -86,12 +104,16 @@ DEFINE_VTABLE_PTR_HELPER_CTOR_CALLER(AFPSCharacter); \
 	FORCEINLINE static uint32 __PPO__NoiseEmitterComponent() { return STRUCT_OFFSET(AFPSCharacter, NoiseEmitterComponent); }
 
 
-#define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_18_PROLOG
+#define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_18_PROLOG \
+	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_EVENT_PARMS
+
+
 #define StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_GENERATED_BODY_LEGACY \
 PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
 	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_PRIVATE_PROPERTY_OFFSET \
 	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_RPC_WRAPPERS \
+	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_CALLBACK_WRAPPERS \
 	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_INCLASS \
 	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_STANDARD_CONSTRUCTORS \
 public: \
@@ -103,6 +125,7 @@ PRAGMA_DISABLE_DEPRECATION_WARNINGS \
 public: \
 	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_PRIVATE_PROPERTY_OFFSET \
 	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_RPC_WRAPPERS_NO_PURE_DECLS \
+	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_CALLBACK_WRAPPERS \
 	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_INCLASS_NO_PURE_DECLS \
 	StealthGameProto_Source_FPSGame_Public_FPSCharacter_h_21_ENHANCED_CONSTRUCTORS \
 private: \

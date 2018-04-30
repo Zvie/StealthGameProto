@@ -18,6 +18,8 @@ AFPSAIGuard::AFPSAIGuard()
 	PrimaryActorTick.bCanEverTick = true;
 
 	PawnSensingComp = CreateDefaultSubobject<UPawnSensingComponent>(TEXT("PawnSensingComp"));
+	SetReplicates(true);
+	SetReplicateMovement(true);
 
 }
 
@@ -105,9 +107,9 @@ void AFPSAIGuard::AlertState(APawn* SeenPawn)
 	{
 		AFPSCharacter* myChar = Cast<AFPSCharacter>(this->GetClass());
 
-		GM->bIsMissionComplete = false;
-		GM->CompleteMission(SeenPawn);
-		myChar->Died();
+		
+		GM->OnMissionComplete(SeenPawn, false);
+		
 		
 	}
 

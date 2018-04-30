@@ -47,7 +47,11 @@ void AFPSProjectile::OnHit(UPrimitiveComponent* HitComp, AActor* OtherActor, UPr
 		OtherComp->AddImpulseAtLocation(GetVelocity() * 100.0f, GetActorLocation());
 	}
 
+	if (Role == ROLE_Authority) {
+		
+		MakeNoise(1.0, Instigator);
+		Destroy();
+	}
+
 	UGameplayStatics::SpawnEmitterAtLocation(GetWorld(), ExplosionEffect, GetActorLocation());
-	MakeNoise(1.0, Instigator);
-	Destroy();
 }

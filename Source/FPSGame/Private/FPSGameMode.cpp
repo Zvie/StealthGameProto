@@ -6,6 +6,8 @@
 #include "UObject/ConstructorHelpers.h"
 #include "Kismet/GameplayStatics.h"
 #include "FPSCharacter.h"
+#include "FPSGameState.h"
+#include "FPSPlayerController.h"
 
 AFPSGameMode::AFPSGameMode()
 {
@@ -15,13 +17,15 @@ AFPSGameMode::AFPSGameMode()
 
 	// use our custom HUD class
 	HUDClass = AFPSHUD::StaticClass();
+
+	GameStateClass = AFPSGameState::StaticClass();
 }
 
-void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
+void AFPSGameMode::CompleteMission(APawn* InstigatorPawn, bool bMissionComplete)
 {
 	if (InstigatorPawn) 
 	{
-		InstigatorPawn->DisableInput(nullptr);
+	
 
 		// SpectatingViewpointClass at default is null
 		if (SpectatingViewpointClass) {
@@ -39,17 +43,23 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
 				// at the zero index
 				AActor* NewViewTarget = ReturnedActors[0];
 
-				//Define my character
+				// Set the camera blender over the server
+				for (FConstPlayerControllerIterator It = GetWorld()->GetPlayerControllerIterator(); It; It++)
+				{
 
-				// Cast to the player controller then set view target with blend to the 
-				// spectator camera
+					//Define my character
 
-				APlayerController* PC = Cast<APlayerController>(InstigatorPawn->GetController());
-					if (PC)
-					{
-						
-							PC->SetViewTargetWithBlend(NewViewTarget, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic);
+					// Cast to the player controller then set view target with blend to the 
+					// spectator camera
+					APlayerController* PC = It->Get();
+					if (PC) {
+						PC->SetViewTargetWithBlend(NewViewTarget, 0.5f, EViewTargetBlendFunction::VTBlend_Cubic);
 					}
+				}
+
+				
+
+			
 			}
 		} else 
 		{
@@ -57,7 +67,11 @@ void AFPSGameMode::CompleteMission(APawn* InstigatorPawn)
 		}
 	}
 
-	OnMissionCompleted(InstigatorPawn);
+	AFPSGameState* GS = GetGameState<AFPSGameState>();
+
+
+	
+	OnMissionComplete(InstigatorPawn, bMissionComplete);
 
 	
 }

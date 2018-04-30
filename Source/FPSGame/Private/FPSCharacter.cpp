@@ -55,6 +55,14 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 }
 
 
+void AFPSCharacter::Tick(float DeltaTime) {
+	Super::Tick(DeltaTime);
+
+	
+
+	
+}
+
 void AFPSCharacter::BeginPlay()
 {
 	Super::BeginPlay();
@@ -63,23 +71,8 @@ void AFPSCharacter::BeginPlay()
 
 void AFPSCharacter::Fire()
 {
-	
+	ServerFire();
 
-	// try and fire a projectile
-	if (ProjectileClass)
-	{
-		FVector MuzzleLocation = GunMeshComponent->GetSocketLocation("Muzzle");
-		FRotator MuzzleRotation = GunMeshComponent->GetSocketRotation("Muzzle");
-
-		//Set Spawn Collision Handling Override
-		FActorSpawnParameters ActorSpawnParams;
-		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-		ActorSpawnParams.Instigator = this;
-
-
-		// spawn the projectile at the muzzle
-		GetWorld()->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, ActorSpawnParams);
-	}
 
 	// try and play the sound if specified
 	if (FireSound)
@@ -99,20 +92,42 @@ void AFPSCharacter::Fire()
 	}
 }
 
+bool AFPSCharacter::ServerFire_Validate()
+{
+	return true;
+	
+}
+
+void AFPSCharacter::ServerFire_Implementation()
+{
+
+	// try and fire a projectile
+	if (ProjectileClass)
+	{
+		FVector MuzzleLocation = GunMeshComponent->GetSocketLocation("Muzzle");
+		FRotator MuzzleRotation = GunMeshComponent->GetSocketRotation("Muzzle");
+
+		//Set Spawn Collision Handling Override
+		FActorSpawnParameters ActorSpawnParams;
+		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+		ActorSpawnParams.Instigator = this;
+
+
+		// spawn the projectile at the muzzle
+		GetWorld()->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, ActorSpawnParams);
+	}
+}
+
 
 
 void AFPSCharacter::MoveForward(float Value)
 {
 	if (Value != 0.0f)
 	{
-	
-			
+		
 			// add movement in that direction
 			AddMovementInput(GetActorForwardVector(), Value);
-
-
-
-			
+	
 	}
 	
 
@@ -144,7 +159,16 @@ void AFPSCharacter::IsntSprinting()
 	UE_LOG(LogTemp, Display, TEXT("Player isn't sprinting!"));
 }
 
-void AFPSCharacter::Died()
+void Died() {
+
+}
+
+void AFPSCharacter::GetLifetimeReplicatedProps(TArray< FLifetimeProperty > & OutLifetimeProps) const
 {
-	
+	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
+
+	DOREPLIFETIME(AFPSCharacter, bIsCarryingObjective);
+
+	DOREPLIFETIME_CONDITION(AFPSCharacter, bIsCarryingObjective, COND_OwnerOnly);
+
 }

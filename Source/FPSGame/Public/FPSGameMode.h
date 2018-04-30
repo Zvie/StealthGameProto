@@ -22,13 +22,12 @@ public:
 
 	AFPSGameMode();
 
-	UPROPERTY(BlueprintReadWrite, Category = "Mission Complete/Fail")
-	bool bIsMissionComplete;
+	
 
-	void CompleteMission(APawn* InstigatorPawn);
+	void CompleteMission(APawn* InstigatorPawn, bool bMissionComplete);
 
 	UFUNCTION(BlueprintImplementableEvent, Category="GameMode")
-	void OnMissionCompleted(APawn* InstigatorPawn);
+	void OnMissionComplete(APawn* InstigatorPawn, bool bMissionComplete);
 
 };
 

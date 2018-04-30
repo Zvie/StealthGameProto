@@ -27,6 +27,8 @@ AFPSExtractionZone::AFPSExtractionZone()
 	DecalComp = CreateDefaultSubobject<UDecalComponent>(TEXT("Decal Component"));
 	DecalComp->DecalSize = FVector(200.0f, 200.0f, 200.0f);
 	DecalComp->SetupAttachment(OverlapComp);
+
+	
 }
 
 
@@ -48,8 +50,8 @@ void AFPSExtractionZone::HandleOverlap(UPrimitiveComponent* OverlappedComponent,
 		AFPSGameMode* GM = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
 		if (GM) {
 
-			GM->bIsMissionComplete = true;
-			GM->CompleteMission(MyPawn);
+			
+			GM->OnMissionComplete(MyPawn, true);
 			UGameplayStatics::PlaySound2D(this, ObjectiveCompleteSound);
 		}
 	}

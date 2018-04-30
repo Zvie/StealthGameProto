@@ -16,15 +16,15 @@
 	},
 	"BuildProducts": [
 		{
-			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-FPSGame-3268.dll",
+			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-FPSGame-3396.dll",
 			"Type": "DynamicLibrary"
 		},
 		{
-			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-FPSGame-3268.pdb",
+			"Path": "$(ProjectDir)/Binaries/Win64/UE4Editor-FPSGame-3396.pdb",
 			"Type": "SymbolFile"
 		},
 		{
-			"Path": "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-FPSGame-3268.lib",
+			"Path": "$(ProjectDir)/Intermediate/Build/Win64/UE4Editor/Development/UE4Editor-FPSGame-3396.lib",
 			"Type": "ImportLibrary"
 		},
 		{
