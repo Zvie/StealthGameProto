@@ -10,6 +10,8 @@
 #include "Net/UnrealNetwork.h"
 
 
+
+
 AFPSCharacter::AFPSCharacter()
 {
 	// Create a CameraComponent	
@@ -53,10 +55,31 @@ void AFPSCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCompon
 }
 
 
+void AFPSCharacter::BeginPlay()
+{
+	Super::BeginPlay();
+
+}
+
 void AFPSCharacter::Fire()
 {
-	ServerFire();
 	
+
+	// try and fire a projectile
+	if (ProjectileClass)
+	{
+		FVector MuzzleLocation = GunMeshComponent->GetSocketLocation("Muzzle");
+		FRotator MuzzleRotation = GunMeshComponent->GetSocketRotation("Muzzle");
+
+		//Set Spawn Collision Handling Override
+		FActorSpawnParameters ActorSpawnParams;
+		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
+		ActorSpawnParams.Instigator = this;
+
+
+		// spawn the projectile at the muzzle
+		GetWorld()->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, ActorSpawnParams);
+	}
 
 	// try and play the sound if specified
 	if (FireSound)
@@ -77,27 +100,6 @@ void AFPSCharacter::Fire()
 }
 
 
-void AFPSCharacter::ServerFire_Implementation()
-{
-	// try and fire a projectile
-	if (ProjectileClass)
-	{
-		FVector MuzzleLocation = GunMeshComponent->GetSocketLocation("Muzzle");
-		FRotator MuzzleRotation = GunMeshComponent->GetSocketRotation("Muzzle");
-
-		//Set Spawn Collision Handling Override
-		FActorSpawnParameters ActorSpawnParams;
-		ActorSpawnParams.SpawnCollisionHandlingOverride = ESpawnActorCollisionHandlingMethod::AdjustIfPossibleButDontSpawnIfColliding;
-
-		// spawn the projectile at the muzzle
-		GetWorld()->SpawnActor<AFPSProjectile>(ProjectileClass, MuzzleLocation, MuzzleRotation, ActorSpawnParams);
-	}
-}
-
-void AFPSCharacter::ServerFire_Validate()
-{
-	return true;
-}
 
 void AFPSCharacter::MoveForward(float Value)
 {
@@ -108,8 +110,15 @@ void AFPSCharacter::MoveForward(float Value)
 			// add movement in that direction
 			AddMovementInput(GetActorForwardVector(), Value);
 
+
+
+			
 	}
-}
+	
+
+
+	}
+	
 
 
 void AFPSCharacter::MoveRight(float Value)

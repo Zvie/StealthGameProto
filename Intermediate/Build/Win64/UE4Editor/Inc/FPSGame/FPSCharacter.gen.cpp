@@ -18,7 +18,6 @@ void EmptyLinkFunctionForGeneratedCodeFPSCharacter() {}
 	ENGINE_API UClass* Z_Construct_UClass_ACharacter();
 	UPackage* Z_Construct_UPackage__Script_FPSGame();
 	FPSGAME_API UFunction* Z_Construct_UFunction_AFPSCharacter_Died();
-	FPSGAME_API UFunction* Z_Construct_UFunction_AFPSCharacter_ServerFire();
 	ENGINE_API UClass* Z_Construct_UClass_UAnimSequence_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USoundBase_NoRegister();
 	COREUOBJECT_API UClass* Z_Construct_UClass_UClass();
@@ -27,17 +26,11 @@ void EmptyLinkFunctionForGeneratedCodeFPSCharacter() {}
 	ENGINE_API UClass* Z_Construct_UClass_UCameraComponent_NoRegister();
 	ENGINE_API UClass* Z_Construct_UClass_USkeletalMeshComponent_NoRegister();
 // End Cross Module References
-	static FName NAME_AFPSCharacter_ServerFire = FName(TEXT("ServerFire"));
-	void AFPSCharacter::ServerFire()
-	{
-		ProcessEvent(FindFunctionChecked(NAME_AFPSCharacter_ServerFire),NULL);
-	}
 	void AFPSCharacter::StaticRegisterNativesAFPSCharacter()
 	{
 		UClass* Class = AFPSCharacter::StaticClass();
 		static const FNameNativePtrPair Funcs[] = {
 			{ "Died", &AFPSCharacter::execDied },
-			{ "ServerFire", &AFPSCharacter::execServerFire },
 		};
 		FNativeFunctionRegistrar::RegisterFunctions(Class, Funcs, ARRAY_COUNT(Funcs));
 	}
@@ -57,21 +50,6 @@ void EmptyLinkFunctionForGeneratedCodeFPSCharacter() {}
 		}
 		return ReturnFunction;
 	}
-	UFunction* Z_Construct_UFunction_AFPSCharacter_ServerFire()
-	{
-		static UFunction* ReturnFunction = nullptr;
-		if (!ReturnFunction)
-		{
-#if WITH_METADATA
-			static const UE4CodeGen_Private::FMetaDataPairParam Function_MetaDataParams[] = {
-				{ "ModuleRelativePath", "Public/FPSCharacter.h" },
-			};
-#endif
-			static const UE4CodeGen_Private::FFunctionParams FuncParams = { (UObject*(*)())Z_Construct_UClass_AFPSCharacter, "ServerFire", RF_Public|RF_Transient|RF_MarkAsNative, nullptr, (EFunctionFlags)0x80280CC0, 0, nullptr, 0, 0, 0, METADATA_PARAMS(Function_MetaDataParams, ARRAY_COUNT(Function_MetaDataParams)) };
-			UE4CodeGen_Private::ConstructUFunction(ReturnFunction, FuncParams);
-		}
-		return ReturnFunction;
-	}
 	UClass* Z_Construct_UClass_AFPSCharacter_NoRegister()
 	{
 		return AFPSCharacter::StaticClass();
@@ -87,7 +65,6 @@ void EmptyLinkFunctionForGeneratedCodeFPSCharacter() {}
 			};
 			static const FClassFunctionLinkInfo FuncInfo[] = {
 				{ &Z_Construct_UFunction_AFPSCharacter_Died, "Died" }, // 743775615
-				{ &Z_Construct_UFunction_AFPSCharacter_ServerFire, "ServerFire" }, // 2408965813
 			};
 #if WITH_METADATA
 			static const UE4CodeGen_Private::FMetaDataPairParam Class_MetaDataParams[] = {
@@ -200,7 +177,7 @@ void EmptyLinkFunctionForGeneratedCodeFPSCharacter() {}
 		}
 		return OuterClass;
 	}
-	IMPLEMENT_CLASS(AFPSCharacter, 2966845676);
+	IMPLEMENT_CLASS(AFPSCharacter, 1639819030);
 	static FCompiledInDefer Z_CompiledInDefer_UClass_AFPSCharacter(Z_Construct_UClass_AFPSCharacter, &AFPSCharacter::StaticClass, TEXT("/Script/FPSGame"), TEXT("AFPSCharacter"), false, nullptr, nullptr, nullptr);
 	DEFINE_VTABLE_PTR_HELPER_CTOR(AFPSCharacter);
 PRAGMA_ENABLE_DEPRECATION_WARNINGS

@@ -22,6 +22,9 @@ class AFPSCharacter : public ACharacter
 
 protected:
 
+	// Called when the game starts or when spawned
+	virtual void BeginPlay() override;
+	
 	/** Pawn mesh: 1st person view  */
 	UPROPERTY(VisibleAnywhere, BlueprintReadOnly, Category="Mesh")
 	USkeletalMeshComponent* Mesh1PComponent;
@@ -52,6 +55,8 @@ public:
 	UPROPERTY(EditDefaultsOnly, Category = "Gameplay")
 	UAnimSequence* FireAnimation;
 
+
+
 	UPROPERTY(BlueprintReadOnly, Category = "Gameplay")
 	bool bIsCarryingObjective;
 
@@ -63,8 +68,7 @@ protected:
 	/** Fires a projectile. */
 	void Fire();
 
-	UFUNCTION(Server, Reliable, WithValidation)
-	void ServerFire();
+	
 
 	/** Handles moving forward/backward */
 	void MoveForward(float Val);

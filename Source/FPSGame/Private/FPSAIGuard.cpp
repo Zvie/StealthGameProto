@@ -40,17 +40,23 @@ void AFPSAIGuard::BeginPlay()
 void AFPSAIGuard::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
+
+
 	// Patrol Goal Checks
 	if (CurrentPatrolPoint)
 	{
 		FVector Delta = GetActorLocation() - CurrentPatrolPoint->GetActorLocation();
 		float DistanceToGoal = Delta.Size();
 
-		// Check if we are within 50 units of our goal, if so - pick a new patrol point
-		if (DistanceToGoal < 75)
-		{
-			MoveToNextPatrolPoint();
+		if (GuardState == EAIState::Patrol) {
+
+			// Check if we are within 50 units of our goal, if so - pick a new patrol point
+			if (DistanceToGoal < 75)
+			{
+				MoveToNextPatrolPoint();
+			}
 		}
+
 	}
 
 }
@@ -75,6 +81,9 @@ void AFPSAIGuard::SetGuardState(EAIState NewState)
 
 void AFPSAIGuard::AlertState(APawn* SeenPawn)
 {
+	
+	SetGuardState(EAIState::Alerted);
+
 	if (SeenPawn == nullptr)
 	{
 		return;
@@ -88,6 +97,7 @@ void AFPSAIGuard::AlertState(APawn* SeenPawn)
 		GetWorldTimerManager().SetTimer(TimerHandle_ResetSFX, this, &AFPSAIGuard::ResetSFX, 4.0f);
 	 }
 	
+		
 	
 
 	AFPSGameMode* GM = Cast<AFPSGameMode>(GetWorld()->GetAuthGameMode());
@@ -101,7 +111,8 @@ void AFPSAIGuard::AlertState(APawn* SeenPawn)
 		
 	}
 
-	SetGuardState(EAIState::Alerted);
+	GetWorldTimerManager().ClearTimer(TimerHandle_ResetOrientation);
+	GetWorldTimerManager().SetTimer(TimerHandle_ResetOrientation, this, &AFPSAIGuard::ResetOrientation, 3.0f);
 
 	// Stop Movement if Patrolling
 	AController* Controller = GetController();
@@ -121,7 +132,9 @@ void AFPSAIGuard::SuspisciousState(APawn* NoiseInstigator, const FVector& Locati
 		return;
 	}
 
-	DrawDebugSphere(GetWorld(), Location, 32.0f, 12, FColor::Green, false, 10.0f);
+	SetGuardState(EAIState::Suspicious);
+
+	
 
 	FVector Direction = Location - GetActorLocation();
 	Direction.Normalize();
@@ -130,12 +143,13 @@ void AFPSAIGuard::SuspisciousState(APawn* NoiseInstigator, const FVector& Locati
 	NewLookAt.Pitch = 0.0f;
 	NewLookAt.Roll = 0.0f;
 
+
 	SetActorRotation(NewLookAt);
 
 	GetWorldTimerManager().ClearTimer(TimerHandle_ResetOrientation);
 	GetWorldTimerManager().SetTimer(TimerHandle_ResetOrientation, this, &AFPSAIGuard::ResetOrientation, 3.0f);
 
-	SetGuardState(EAIState::Suspicious);
+	
 
 	// Stop Movement if Patrolling
 	AController* Controller = GetController();
